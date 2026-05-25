@@ -20,7 +20,15 @@ curl http://localhost:5000/api/users
 
 route -> controller -> service -> repository -> Prisma
 
-## Local PostgreSQL
+---
+
+## Local PostgreSQL setup
+
+- `schema.prisma` defines the `User` model
+- `prisma.config.ts` reads `DATABASE_URL`
+- `db.ts` connects Prisma to PostgreSQL
+- `npx prisma db push` creates/updates the tables
+- the app then uses Prisma to read/write users
 
 Run Postgres with Docker:
 
@@ -42,6 +50,8 @@ Sync Prisma and start the API:
 npx prisma db push
 npm run dev
 ```
+
+---
 
 npm init - git init
 create .gitkeep for empty folders like in public is empty now
