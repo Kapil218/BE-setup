@@ -1,3 +1,110 @@
+## Current Project Overview
+
+This project is a TypeScript + Express + Prisma backend with PostgreSQL, Zod validation, pino logging, Swagger docs, Jest tests, and Husky/commitlint checks.
+
+### Main folders
+
+- `prisma/` — Prisma schema and generated migrations
+- `src/config/` — logger and database bootstrap
+- `src/controllers/` — request handlers
+- `src/services/` — business logic
+- `src/repositories/` — Prisma database queries
+- `src/models/` — request/validation schemas and app-level models
+- `src/middlewares/` — validation, error, and not-found handlers
+- `src/routes/` — route aggregation and feature routes
+- `src/utils/` — `ApiError`, `ApiResponse`, and `asyncHandler`
+- `src/docs/` — Swagger setup
+
+---
+
+### Installed dependencies
+
+Runtime:
+
+- `express`
+- `zod`
+- `prisma`
+- `@prisma/client`
+- `@prisma/adapter-pg`
+- `pg`
+- `cors`
+- `helmet`
+- `dotenv`
+- `compression`
+- `pino`
+- `pino-http`
+- `swagger-jsdoc`
+- `swagger-ui-express`
+
+Dev:
+
+- `typescript`
+- `tsx`
+- `eslint`
+- `prettier`
+- `jest`
+- `supertest`
+- `husky`
+- `lint-staged`
+- `commitlint`
+
+---
+
+### How to run locally
+
+1. Start PostgreSQL with Docker
+
+```bash
+docker compose up -d postgres
+```
+
+2. Create `.env` from `.env.sample`
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/nodebe?schema=public"
+PORT=5000
+NODE_ENV=development
+```
+
+3. Push the Prisma schema to the database
+
+```bash
+npx prisma db push
+```
+
+4. Start the API server
+
+```bash
+npm run dev
+```
+
+---
+
+### Available scripts
+
+```bash
+npm run dev          # start the API with tsx watch
+npm run build        # compile TypeScript
+npm run start        # run the compiled server
+npm run lint         # run ESLint
+npm run test         # run Jest
+npm run prisma:migrate # create/apply a Prisma migration
+npm run prisma:generate # regenerate the Prisma client
+```
+
+---
+
+### Commit message format
+
+This repo uses Conventional Commits through commitlint. Examples:
+
+- `feat: add user api`
+- `fix: handle validation error`
+- `docs: update readme`
+- `chore: update dependencies`
+
+---
+
 API Request Flow (summary)
 
 - Client sends HTTP request to the app (example: `GET /api/users`).
@@ -50,153 +157,3 @@ Sync Prisma and start the API:
 npx prisma db push
 npm run dev
 ```
-
----
-
-npm init - git init
-create .gitkeep for empty folders like in public is empty now
-add env files
-git ignore with env genarator
-add src folder with constant - app - server files
-add controller - middlewares - models - routes - utils - config
-in utils add apierror apiresponse asynchandler
-add nodemon for auto reload (dev dependency)
-
-add dependency -
-typescript
-eslint
-prettier
-jest
-husky
-lint-staged
-commitlint
-
-| Tool        | Purpose                |
-| ----------- | ---------------------- |
-| TypeScript  | type safety            |
-| ESLint      | code quality           |
-| Prettier    | formatting             |
-| Jest        | testing                |
-| Husky       | git hooks              |
-| lint-staged | lint only staged files |
-| Commitlint  | proper commit messages |
-
-    express
-    zod
-    prisma
-    cors
-    helmet
-    dotenv
-    compression
-    pino
-    pino
-    supertest
-    tsx
-
-| Tool        | Purpose                 |
-| ----------- | ----------------------- |
-| express     | API server              |
-| zod         | validation              |
-| prisma      | ORM/database            |
-| cors        | frontend access         |
-| helmet      | security                |
-| dotenv      | env vars                |
-| compression | gzip responses          |
-| pino        | structured request logs |
-| pino        | structured logs         |
-| supertest   | API testing             |
-| tsx         | TS runtime/dev server   |
-
-Add Prisma singleton
-error.middleware.ts
-asyncHandler.ts
-validate.middleware.ts
-ApiResponse.ts
-routes/index.ts
-
-nodebe/
-├── .husky/
-│
-├── prisma/ # Prisma schema & migrations
-│ ├── migrations/
-│ └── schema.prisma
-│
-├── src/
-│ │
-│ ├── config/ # App configuration
-│ │ ├── env.ts
-│ │ ├── logger.ts
-│ │ ├── db.ts
-│ │ └── constants.ts
-│ │
-│ ├── modules/ # Feature/module based architecture
-│ │ │
-│ │ ├── auth/
-│ │ │ ├── auth.controller.ts
-│ │ │ ├── auth.service.ts
-│ │ │ ├── auth.repository.ts
-│ │ │ ├── auth.routes.ts
-│ │ │ ├── auth.validation.ts
-│ │ │ ├── auth.types.ts
-│ │ │ └── auth.constants.ts
-│ │ │
-│ │ ├── user/
-│ │ │ ├── user.controller.ts
-│ │ │ ├── user.service.ts
-│ │ │ ├── user.repository.ts
-│ │ │ ├── user.routes.ts
-│ │ │ ├── user.validation.ts
-│ │ │ ├── user.types.ts
-│ │ │ └── user.constants.ts
-│ │ │
-│ │ ├── invoice/
-│ │ ├── payment/
-│ │ └── etc...
-│ │
-│ ├── middlewares/
-│ │ ├── auth.middleware.ts
-│ │ ├── error.middleware.ts
-│ │ ├── validate.middleware.ts
-│ │ ├── rateLimit.middleware.ts
-│ │ └── upload.middleware.ts
-│ │
-│ ├── routes/
-│ │ └── index.ts # Combine all module routes
-│ │
-│ ├── utils/
-│ │ ├── ApiError.ts
-│ │ ├── ApiResponse.ts
-│ │ ├── asyncHandler.ts
-│ │ ├── pagination.ts
-│ │ ├── generateToken.ts
-│ │ ├── hash.ts
-│ │ └── helpers.ts
-│ │
-│ ├── types/
-│ │ ├── express.d.ts
-│ │ └── common.types.ts
-│ │
-│ ├── jobs/ # Cron jobs / background jobs
-│ │
-│ ├── docs/ # Swagger/OpenAPI setup
-│ │
-│ ├── tests/
-│ │ ├── setup.ts
-│ │ ├── unit/
-│ │ └── integration/
-│ │
-│ ├── app.ts # Express app config
-│ └── server.ts # Server bootstrap
-│
-├── .env
-├── .env.example
-├── .gitignore
-├── .prettierignore
-├── .prettierrc
-├── eslint.config.mjs
-├── commitlint.config.js
-├── jest.config.js
-├── tsconfig.json
-├── package.json
-├── package-lock.json
-└── README.md
