@@ -1,4 +1,5 @@
 import swaggerJsdoc from "swagger-jsdoc";
+import { env } from "../config/env.js";
 
 const options: Parameters<typeof swaggerJsdoc>[0] = {
   definition: {
@@ -12,12 +13,12 @@ const options: Parameters<typeof swaggerJsdoc>[0] = {
 
     servers: [
       {
-        url: "http://localhost:5000",
+        url: `http://localhost:${env.PORT}`,
       },
     ],
   },
 
-  apis: ["./src/controllers/**/*.ts", "./src/routes/**/*.ts"],
+  apis: ["./src/modules/**/routes/*.ts", "./src/routes/**/*.ts"],
 };
 
 export const specs = swaggerJsdoc(options);

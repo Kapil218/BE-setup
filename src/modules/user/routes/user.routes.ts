@@ -5,20 +5,20 @@ import {
   getUserById,
   getUsers,
   updateUser,
-} from "../controllers/user/user.controller.js";
-import { validate } from "../middlewares/validate.middleware.js";
+} from "../controllers/user.controller.js";
+import { validate } from "../../../middlewares/validate.middleware.js";
 import {
   createUserBodySchema,
   listUsersQuerySchema,
   updateUserBodySchema,
   userParamsSchema,
-} from "../controllers/user/user.validation.js";
+} from "../validators/user.validators.js";
 
 const router = Router();
 
 /**
  * @openapi
- * /api/users:
+ * /api/v1/users:
  *   get:
  *     tags:
  *       - Users
@@ -44,7 +44,7 @@ router.get("/", validate({ query: listUsersQuerySchema }), getUsers);
 
 /**
  * @openapi
- * /api/users/{id}:
+ * /api/v1/users/{id}:
  *   get:
  *     tags:
  *       - Users
@@ -63,7 +63,7 @@ router.get("/:id", validate({ params: userParamsSchema }), getUserById);
 
 /**
  * @openapi
- * /api/users:
+ * /api/v1/users:
  *   post:
  *     tags:
  *       - Users
@@ -90,7 +90,7 @@ router.post("/", validate({ body: createUserBodySchema }), createUser);
 
 /**
  * @openapi
- * /api/users/{id}:
+ * /api/v1/users/{id}:
  *   patch:
  *     tags:
  *       - Users
@@ -124,7 +124,7 @@ router.patch(
 
 /**
  * @openapi
- * /api/users/{id}:
+ * /api/v1/users/{id}:
  *   delete:
  *     tags:
  *       - Users

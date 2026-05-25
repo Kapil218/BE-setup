@@ -1,5 +1,5 @@
 import { Prisma, type User } from "@prisma/client";
-import { prisma } from "../config/db.js";
+import { prisma } from "../../../config/db.config.js";
 
 export type CreateUserInput = {
   email: string;

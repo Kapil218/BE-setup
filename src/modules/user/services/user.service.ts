@@ -1,12 +1,14 @@
 import { Prisma } from "@prisma/client";
 import { StatusCodes } from "http-status-codes";
-import { ApiError } from "../utils/ApiError.js";
+import { ApiError } from "../../../utils/ApiError.js";
+import { createPaginationMeta } from "../../../utils/pagination.js";
 import {
   type CreateUserInput,
   type UpdateUserInput,
   type UserListQuery,
   userRepository,
 } from "../repositories/user.repository.js";
+import { USER_SEARCHABLE_FIELDS } from "../constants/user.constants.js";
 
 const buildSearchWhere = (search?: string): Prisma.UserWhereInput => {
   if (!search) {
@@ -14,10 +16,9 @@ const buildSearchWhere = (search?: string): Prisma.UserWhereInput => {
   }
 
   return {
-    OR: [
-      { email: { contains: search, mode: "insensitive" } },
-      { name: { contains: search, mode: "insensitive" } },
-    ],
+    OR: USER_SEARCHABLE_FIELDS.map((field) => ({
+      [field]: { contains: search, mode: "insensitive" },
+    })),
   };
 };
 
@@ -46,12 +47,7 @@ export const userService = {
 
     return {
       users,
-      pagination: {
-        page: query.page,
-        limit: query.limit,
-        total,
-        totalPages: Math.max(1, Math.ceil(total / query.limit)),
-      },
+      pagination: createPaginationMeta(query.page, query.limit, total),
     };
   },
 

@@ -1,14 +1,14 @@
 import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { ApiResponse } from "../../utils/ApiResponse.js";
-import { asyncHandler } from "../../utils/asyncHandler.js";
-import { userService } from "../../services/user.service.js";
+import { ApiResponse } from "../../../utils/ApiResponse.js";
+import { asyncHandler } from "../../../utils/asyncHandler.js";
+import { userService } from "../services/user.service.js";
 import type {
   CreateUserBody,
   ListUsersQuery,
   UpdateUserBody,
   UserParams,
-} from "./user.validation.js";
+} from "../types/user.types.js";
 
 export const createUser = asyncHandler(async (req: Request, res: Response) => {
   const payload = req.body as CreateUserBody;

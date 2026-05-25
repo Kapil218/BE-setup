@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import userRoutes from "./user.routes.js";
+import v1Routes from "./v1/index.js";
 
 const router = Router();
 
@@ -19,6 +19,6 @@ router.get("/health", (req, res) => {
   );
 });
 
-router.use("/users", userRoutes);
+router.use("/v1", v1Routes);
 
 export default router;
