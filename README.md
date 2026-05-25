@@ -157,3 +157,21 @@ Sync Prisma and start the API:
 npx prisma db push
 npm run dev
 ```
+
+---
+
+## Use this as a starter
+
+After publishing, create a new project from npm with:
+
+```bash
+npm create nodebe@latest my-app
+```
+
+You can also run the binary directly:
+
+```bash
+npx create-nodebe my-app
+```
+
+The generator copies the starter files into the target folder, rewrites the generated `package.json` name to the new project folder, and then tells you to install dependencies and start the app.

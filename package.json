@@ -1,10 +1,16 @@
 {
-  "name": "nodebe",
+  "name": "create-nodebe",
   "version": "1.0.0",
   "description": "BE base setup",
   "license": "ISC",
   "author": "kapil",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "create-nodebe": "./bin/create-nodebe.js"
+  },
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
