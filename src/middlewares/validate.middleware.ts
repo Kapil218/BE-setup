@@ -1,9 +1,36 @@
-import type { ZodSchema } from "zod";
-import type { Request, Response, NextFunction } from "express";
+import type { Request, RequestHandler, Response } from "express";
+import type { ZodTypeAny } from "zod";
+
+type ValidationSchemas = {
+  body?: ZodTypeAny;
+  params?: ZodTypeAny;
+  query?: ZodTypeAny;
+};
 
 export const validate =
-  (schema: ZodSchema) => (req: Request, res: Response, next: NextFunction) => {
-    schema.parse(req.body);
+  ({ body, params, query }: ValidationSchemas): RequestHandler =>
+  (req, res: Response, next) => {
+    try {
+      const request = req as Request & {
+        body: unknown;
+        params: Record<string, unknown>;
+        query: Record<string, unknown>;
+      };
 
-    next();
+      if (body) {
+        request.body = body.parse(request.body);
+      }
+
+      if (params) {
+        request.params = params.parse(request.params) as Request["params"];
+      }
+
+      if (query) {
+        res.locals.validatedQuery = query.parse(request.query);
+      }
+
+      next();
+    } catch (error) {
+      next(error);
+    }
   };
